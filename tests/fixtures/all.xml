@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Meinungsmache - Alle</title>
+    <link>https://meinungsmache.de</link>
+    <description>Testfeed</description>
+    <language>de</language>
+    <item>
+      <title>Testartikel eins</title>
+      <link>https://meinungsmache.de/article/testartikel-eins</link>
+      <guid isPermaLink="true">https://meinungsmache.de/article/testartikel-eins</guid>
+      <pubDate>Sat, 21 Nov 2026 17:00:01 GMT</pubDate>
+      <description>&lt;p&gt;Ein &lt;em&gt;kurzer&lt;/em&gt; Anrisstext &amp;amp; mehr.&lt;/p&gt;</description>
+      <enclosure url="https://meinungsmache.de/gateway/articles/testartikel-eins/image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Testartikel zwei zu Donald Trump</title>
+      <link>https://meinungsmache.de/article/testartikel-zwei</link>
+      <guid isPermaLink="true">https://meinungsmache.de/article/testartikel-zwei</guid>
+      <pubDate>Sat, 21 Nov 2026 11:54:23 GMT</pubDate>
+      <description>&lt;p&gt;Zweiter Text.&lt;/p&gt;</description>
+      <enclosure url="https://meinungsmache.de/gateway/articles/testartikel-zwei/image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Eigener Bericht aus Leipzig</title>
+      <link>https://meinungsmache.de/article/eigener-bericht</link>
+      <guid isPermaLink="true">https://meinungsmache.de/article/eigener-bericht</guid>
+      <pubDate>Tue, 17 Nov 2026 11:33:00 GMT</pubDate>
+      <description>&lt;p&gt;Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. Langer Text mit vielen Wörtern. &lt;/p&gt;</description>
+      <author>Gerrit</author>
+      <enclosure url="https://meinungsmache.de/gateway/articles/eigener-bericht/image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Meldung ohne Bild</title>
+      <link>https://meinungsmache.de/article/ohne-bild</link>
+      <guid isPermaLink="true">https://meinungsmache.de/article/ohne-bild</guid>
+      <pubDate>Mon, 16 Nov 2026 08:00:00 GMT</pubDate>
+      <description>&lt;p&gt;Kurz.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,150 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up Meinungsmache",
+        "description": "Choose the feeds from {seite} to show in Home Assistant. Each feed becomes a device with the latest article, the time of the latest article and an event for automations.",
+        "data": {
+          "feeds": "Feeds",
+          "intervall": "Update interval",
+          "anzahl": "Entries per feed"
+        },
+        "data_description": {
+          "feeds": "“Alle Artikel” contains every new article; topic feeds only the matching ones.",
+          "intervall": "In minutes. The site caches the feed for five minutes, shorter intervals do not help.",
+          "anzahl": "Number of articles available to the dashboard card."
+        }
+      }
+    },
+    "error": {
+      "kein_feed": "Please choose at least one feed.",
+      "nicht_erreichbar": "meinungsmache.de cannot be reached right now. Please try again later.",
+      "ungueltiger_feed": "The response from meinungsmache.de is not a valid feed."
+    },
+    "abort": {
+      "single_instance_allowed": "Meinungsmache is already set up. Use “Configure” to change the feeds."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Adjust Meinungsmache",
+        "description": "Add or remove feeds. Removed feeds disappear together with their device.",
+        "data": {
+          "feeds": "Feeds",
+          "intervall": "Update interval",
+          "anzahl": "Entries per feed"
+        },
+        "data_description": {
+          "feeds": "“Alle Artikel” contains every new article; topic feeds only the matching ones.",
+          "intervall": "In minutes. The site caches the feed for five minutes, shorter intervals do not help.",
+          "anzahl": "Number of articles available to the dashboard card."
+        }
+      }
+    },
+    "error": {
+      "kein_feed": "Please choose at least one feed."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "neuester_artikel": {
+        "name": "Latest article",
+        "state_attributes": {
+          "link": {
+            "name": "Link"
+          },
+          "veroeffentlicht": {
+            "name": "Published"
+          },
+          "teaser": {
+            "name": "Teaser"
+          },
+          "bild": {
+            "name": "Image"
+          },
+          "autor": {
+            "name": "Author"
+          },
+          "exklusiv": {
+            "name": "Exclusive"
+          },
+          "eigen": {
+            "name": "Own article"
+          },
+          "feed": {
+            "name": "Feed"
+          },
+          "feed_name": {
+            "name": "Feed name"
+          },
+          "eintraege": {
+            "name": "Entries"
+          },
+          "letzter_fehler": {
+            "name": "Last error"
+          },
+          "bild_original": {
+            "name": "Image (source)"
+          }
+        }
+      },
+      "zuletzt_erschienen": {
+        "name": "Last published"
+      }
+    },
+    "event": {
+      "neuer_artikel": {
+        "name": "New article",
+        "state_attributes": {
+          "event_type": {
+            "name": "Type",
+            "state": {
+              "artikel": "Article",
+              "eigener_artikel": "Own article",
+              "exklusiv": "Exclusive"
+            }
+          },
+          "link": {
+            "name": "Link"
+          },
+          "veroeffentlicht": {
+            "name": "Published"
+          },
+          "teaser": {
+            "name": "Teaser"
+          },
+          "bild": {
+            "name": "Image"
+          },
+          "autor": {
+            "name": "Author"
+          },
+          "exklusiv": {
+            "name": "Exclusive"
+          },
+          "eigen": {
+            "name": "Own article"
+          },
+          "feed": {
+            "name": "Feed"
+          },
+          "feed_name": {
+            "name": "Feed name"
+          },
+          "titel": {
+            "name": "Title"
+          },
+          "bild_original": {
+            "name": "Image (source)"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "abruf_fehlgeschlagen": {
+      "message": "None of the selected meinungsmache.de feeds could be fetched."
+    }
+  }
+}

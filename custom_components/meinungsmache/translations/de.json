@@ -1,0 +1,150 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Meinungsmache einrichten",
+        "description": "Wähle die Feeds von {seite}, die in Home Assistant erscheinen sollen. Je Feed entsteht ein Gerät mit dem neuesten Artikel, dem Zeitpunkt des neuesten Artikels und einem Ereignis für Automationen.",
+        "data": {
+          "feeds": "Feeds",
+          "intervall": "Abrufabstand",
+          "anzahl": "Einträge je Feed"
+        },
+        "data_description": {
+          "feeds": "„Alle Artikel“ enthält jeden neuen Artikel; die Themen-Feeds nur die passenden.",
+          "intervall": "In Minuten. Der Feed wird auf der Seite fünf Minuten zwischengespeichert, kürzere Abstände bringen nichts.",
+          "anzahl": "So viele Artikel stehen für die Dashboard-Karte bereit."
+        }
+      }
+    },
+    "error": {
+      "kein_feed": "Bitte mindestens einen Feed wählen.",
+      "nicht_erreichbar": "meinungsmache.de ist gerade nicht erreichbar. Bitte später erneut versuchen.",
+      "ungueltiger_feed": "Die Antwort von meinungsmache.de ist kein gültiger Feed."
+    },
+    "abort": {
+      "single_instance_allowed": "Meinungsmache ist schon eingerichtet. Feeds lassen sich über „Konfigurieren“ ändern."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Meinungsmache anpassen",
+        "description": "Feeds hinzufügen oder entfernen. Entfernte Feeds verschwinden samt Gerät.",
+        "data": {
+          "feeds": "Feeds",
+          "intervall": "Abrufabstand",
+          "anzahl": "Einträge je Feed"
+        },
+        "data_description": {
+          "feeds": "„Alle Artikel“ enthält jeden neuen Artikel; die Themen-Feeds nur die passenden.",
+          "intervall": "In Minuten. Der Feed wird auf der Seite fünf Minuten zwischengespeichert, kürzere Abstände bringen nichts.",
+          "anzahl": "So viele Artikel stehen für die Dashboard-Karte bereit."
+        }
+      }
+    },
+    "error": {
+      "kein_feed": "Bitte mindestens einen Feed wählen."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "neuester_artikel": {
+        "name": "Neuester Artikel",
+        "state_attributes": {
+          "link": {
+            "name": "Link"
+          },
+          "veroeffentlicht": {
+            "name": "Veröffentlicht"
+          },
+          "teaser": {
+            "name": "Anrisstext"
+          },
+          "bild": {
+            "name": "Bild"
+          },
+          "autor": {
+            "name": "Autor/in"
+          },
+          "exklusiv": {
+            "name": "Exklusiv"
+          },
+          "eigen": {
+            "name": "Eigener Artikel"
+          },
+          "feed": {
+            "name": "Feed"
+          },
+          "feed_name": {
+            "name": "Feed-Name"
+          },
+          "eintraege": {
+            "name": "Einträge"
+          },
+          "letzter_fehler": {
+            "name": "Letzter Fehler"
+          },
+          "bild_original": {
+            "name": "Bild (Quelle)"
+          }
+        }
+      },
+      "zuletzt_erschienen": {
+        "name": "Zuletzt erschienen"
+      }
+    },
+    "event": {
+      "neuer_artikel": {
+        "name": "Neuer Artikel",
+        "state_attributes": {
+          "event_type": {
+            "name": "Art",
+            "state": {
+              "artikel": "Artikel",
+              "eigener_artikel": "Eigener Artikel",
+              "exklusiv": "Exklusiv"
+            }
+          },
+          "link": {
+            "name": "Link"
+          },
+          "veroeffentlicht": {
+            "name": "Veröffentlicht"
+          },
+          "teaser": {
+            "name": "Anrisstext"
+          },
+          "bild": {
+            "name": "Bild"
+          },
+          "autor": {
+            "name": "Autor/in"
+          },
+          "exklusiv": {
+            "name": "Exklusiv"
+          },
+          "eigen": {
+            "name": "Eigener Artikel"
+          },
+          "feed": {
+            "name": "Feed"
+          },
+          "feed_name": {
+            "name": "Feed-Name"
+          },
+          "titel": {
+            "name": "Titel"
+          },
+          "bild_original": {
+            "name": "Bild (Quelle)"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "abruf_fehlgeschlagen": {
+      "message": "Keiner der gewählten Feeds von meinungsmache.de ließ sich abrufen."
+    }
+  }
+}

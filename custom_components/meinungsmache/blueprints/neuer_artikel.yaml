@@ -1,0 +1,154 @@
+# Vorlage der Integration Meinungsmache (https://github.com/rony-x2/meinungsmache-home-assistant)
+blueprint:
+  name: "Meinungsmache: Neuer Artikel – Aktionen"
+  description: >-
+    Führt eigene Aktionen aus, sobald auf meinungsmache.de ein passender Artikel erscheint – etwa ein
+    exklusiver Artikel, eine Meldung zu Donald Trump oder zur Wirtschaft. In den Aktionen stehen
+    {{ titel }}, {{ link }}, {{ teaser }}, {{ bild }}, {{ autor }} und {{ feed_name }} bereit.
+  domain: automation
+  author: Dennis Deutschkämer
+  homeassistant:
+    min_version: "2024.10.0"
+  source_url: https://github.com/rony-x2/meinungsmache-home-assistant/blob/main/custom_components/meinungsmache/blueprints/neuer_artikel.yaml
+  input:
+    filter:
+      name: Welche Artikel?
+      icon: mdi:filter-outline
+      input:
+        feeds:
+          name: Feeds
+          description: >-
+            In welchen Feeds der Artikel erscheinen muss. Es zählen nur Feeds, die auch in der
+            Integration eingerichtet sind. Ein Artikel, der in mehreren gewählten Feeds erscheint, löst
+            nur einmal aus.
+          default: [all]
+          selector:
+            select:
+              multiple: true
+              mode: list
+              options:
+                - label: Alle Artikel
+                  value: all
+                - label: Startseite
+                  value: frontpage
+                - label: Politik
+                  value: politik
+                - label: Gesellschaft
+                  value: gesellschaft
+                - label: Meinungen
+                  value: meinungen
+                - label: Good News
+                  value: good-news
+                - label: International
+                  value: international
+                - label: Wirtschaft
+                  value: wirtschaft
+                - label: Umwelt
+                  value: umwelt
+                - label: Sport
+                  value: sport
+                - label: Medien
+                  value: medien
+                - label: Migration
+                  value: migration
+                - label: AfD
+                  value: afd
+                - label: CDU
+                  value: cdu
+                - label: SPD
+                  value: spd
+                - label: Die Linke
+                  value: die-linke
+                - label: Friedrich Merz
+                  value: friedrich-merz
+                - label: Donald Trump
+                  value: donald-trump
+                - label: Europäische Union
+                  value: europaeische-union
+                - label: Frankreich
+                  value: frankreich
+                - label: Großbritannien
+                  value: grossbritannien
+                - label: China
+                  value: china
+                - label: Gaza
+                  value: gaza
+                - label: Iran
+                  value: iran
+                - label: Russland
+                  value: russland
+                - label: Sudan
+                  value: sudan
+                - label: Ukraine
+                  value: ukraine
+                - label: USA
+                  value: usa
+        art:
+          name: Art
+          default: alle
+          selector:
+            select:
+              mode: list
+              options:
+                - label: Alle Artikel
+                  value: alle
+                - label: Nur eigene Artikel der Redaktion (mit Autorin oder Autor)
+                  value: eigene
+                - label: Nur exklusive Artikel
+                  value: exklusiv
+        stichwoerter:
+          name: Stichwörter (optional)
+          description: >-
+            Kommagetrennt, z. B. „Trump, Weißes Haus“. Der Artikel muss mindestens eines davon in Titel
+            oder Anrisstext enthalten. Groß- und Kleinschreibung spielt keine Rolle. Leer = kein Filter.
+          default: ""
+          selector:
+            text: {}
+    tun:
+      name: Was soll passieren?
+      icon: mdi:play-outline
+      input:
+        aktionen:
+          name: Aktionen
+          selector:
+            action: {}
+
+triggers:
+  - trigger: event
+    event_type: meinungsmache_neuer_artikel
+
+variables:
+  feeds_wahl: !input feeds
+  art_wahl: !input art
+  stichwoerter_wahl: !input stichwoerter
+  artikel: "{{ trigger.event.data }}"
+  titel: "{{ trigger.event.data.titel }}"
+  link: "{{ trigger.event.data.link }}"
+  teaser: "{{ trigger.event.data.teaser }}"
+  bild: "{{ trigger.event.data.bild }}"
+  autor: "{{ trigger.event.data.autor }}"
+  feed_name: "{{ trigger.event.data.feed_name }}"
+
+conditions:
+  - alias: Feed passt und wurde für diese Auswahl noch nicht gemeldet
+    condition: template
+    value_template: >-
+      {% set d = trigger.event.data %}
+      {{ (d.feeds | select('in', feeds_wahl) | list | count) > 0
+         and (d.frueher | default([]) | select('in', feeds_wahl) | list | count) == 0 }}
+  - alias: Art passt
+    condition: template
+    value_template: >-
+      {% set d = trigger.event.data %}
+      {{ art_wahl == 'alle' or (art_wahl == 'eigene' and d.eigen) or (art_wahl == 'exklusiv' and d.exklusiv) }}
+  - alias: Stichwort passt
+    condition: template
+    value_template: >-
+      {% set woerter = stichwoerter_wahl.split(',') | map('trim') | reject('eq', '') | map('lower') | list %}
+      {% set text = (trigger.event.data.titel ~ ' ' ~ (trigger.event.data.teaser or '')) | lower %}
+      {{ woerter | count == 0 or (woerter | select('in', text) | list | count) > 0 }}
+
+actions: !input aktionen
+
+mode: queued
+max: 20

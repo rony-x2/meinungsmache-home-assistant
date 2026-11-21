@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Meinungsmache - Donald Trump</title>
+    <link>https://meinungsmache.de</link>
+    <description>Testfeed</description>
+    <language>de</language>
+    <item>
+      <title>Testartikel zwei zu Donald Trump</title>
+      <link>https://meinungsmache.de/article/testartikel-zwei</link>
+      <guid isPermaLink="true">https://meinungsmache.de/article/testartikel-zwei</guid>
+      <pubDate>Sat, 21 Nov 2026 11:54:23 GMT</pubDate>
+      <description>&lt;p&gt;Zweiter Text.&lt;/p&gt;</description>
+      <enclosure url="https://meinungsmache.de/gateway/articles/testartikel-zwei/image" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>
