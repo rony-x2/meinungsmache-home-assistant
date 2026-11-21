@@ -121,6 +121,10 @@ actions:
 
 Daten des Ereignisses: `titel`, `link`, `veroeffentlicht` (ISO-Zeit), `teaser`, `bild`, `autor`, `exklusiv`, `eigen`, `feed`, `feed_name`, `feeds` (Feeds, in denen der Artikel jetzt neu ist) und `frueher` (Feeds, in denen er schon gemeldet war, falls er erst später in einem weiteren Feed auftaucht).
 
+## Projektseite
+
+Die Seite [poc.deutschkaemer.info/meinungsmache-home-assistant](https://poc.deutschkaemer.info/meinungsmache-home-assistant/) entsteht aus `seite/`: `python3 seite/bauen.py` schreibt sie nach `seite/dist/` (Zeichen und Vorschaubild mit Playwright). Die Vorführung oben auf der Seite ist die echte Karte aus `custom_components/meinungsmache/frontend/`.
+
 ## Hinweise
 
 - „Eigene Artikel“ erkennt die Integration daran, dass der Feed eine Autorin oder einen Autor nennt, „exklusiv“ am Titel („EXKLUSIV: …“).

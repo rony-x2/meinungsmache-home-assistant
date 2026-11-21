@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meinungsmache für Home Assistant – Proof of Concept</title>
+  <meta name="description" content="{{BESCHREIBUNG}}">
+  <link rel="canonical" href="{{SEITE}}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="poc.deutschkaemer.info">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="Meinungsmache für Home Assistant">
+  <meta property="og:description" content="{{BESCHREIBUNG}}">
+  <meta property="og:url" content="{{SEITE}}">
+  <meta property="og:image" content="{{SEITE}}og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Meinungsmache für Home Assistant – Nachrichten von meinungsmache.de auf dem Dashboard und in Automationen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="color-scheme" content="dark light">
+  <meta name="darkreader-lock">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#0f1115">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="/style.css?v=5">
+  <link rel="stylesheet" href="seite.css?v={{V_CSS}}">
+{{SCHEMA}}
+</head>
+<body>
+  <header class="kopf">
+    <div class="rahmen">
+      <a class="marke" href="/">poc<span>.deutschkaemer.info</span></a>
+      <button class="menue-knopf" type="button" aria-expanded="false" aria-controls="hauptnavigation">{{ikon:menue:ikon auf}}{{ikon:schliessen:ikon zu}}<span class="menue-wort">Menü</span></button>
+      <nav id="hauptnavigation" aria-label="Hauptnavigation">
+        <a href="#installieren">Installieren</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#automationen">Automationen</a>
+        <a href="#feeds">Feeds</a>
+        <a href="#aufbau">Aufbau</a>
+        <a href="#quelltext">Quelltext</a>
+        <a href="#datenschutz">Datenschutz</a>
+        <a href="/">Alle PoCs</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="rahmen">
+    <section class="buehne">
+      <div class="buehne-text">
+        <p class="kicker">Proof of Concept · Home Assistant</p>
+        <h1 class="mit-zeichen">{{ZEICHEN}}<span>Meinungsmache für Home Assistant</span></h1>
+        <p class="lead">Die Nachrichten von <a href="https://meinungsmache.de">meinungsmache.de</a> im eigenen Smart Home: Feeds auswählen, die neuesten Artikel auf dem Dashboard zeigen und Automationen auslösen – etwa eine Benachrichtigung, sobald ein exklusiver Artikel erscheint, eine Meldung zu Donald Trump oder zur Wirtschaft.</p>
+        <p class="adresse-titel">Installieren im Terminal von Home Assistant</p>
+        <div class="adresse befehl"><code id="befehl">{{BEFEHL}}</code><button class="kopieren" type="button" data-kopie="befehl">Kopieren</button></div>
+        <p class="klein">Danach Home Assistant neu starten und unter Geräte &amp; Dienste „Meinungsmache“ hinzufügen. Oder über den <a href="#installieren">Marketplace</a>.</p>
+        <div class="anbieter"><span>Enthält</span>
+          <a href="#dashboard">{{ikon:karte}}Dashboard-Karte</a>
+          <a href="#automationen">{{ikon:blitz}}Ereignisse</a>
+          <a href="#vorlagen">{{ikon:glocke}}Benachrichtigung</a>
+          <a href="#feeds">{{ikon:rss}}28 Feeds</a>
+        </div>
+      </div>
+
+      <div class="gespraech vorfuehrung">
+        <div class="gespraech-kopf"><span class="lampe"></span>So sieht das aus<button class="nochmal" type="button" hidden>Noch einmal</button></div>
+        <div class="handy" aria-live="polite">
+          <div class="mitteilung" data-mitteilung>
+            <span class="m-zeichen">{{ZEICHEN_KLEIN}}</span>
+            <div class="m-text">
+              <p class="m-kopf"><b>Home Assistant</b><span>jetzt</span></p>
+              <p class="m-titel" data-m-titel>{{ERSTER_TITEL}}</p>
+              <p class="m-unter" data-m-unter>{{ERSTER_UNTER}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="ha-rahmen">
+          <meinungsmache-card data-demo></meinungsmache-card>
+          <noscript><p class="klein">Die Vorführung braucht JavaScript.</p></noscript>
+        </div>
+        <p class="v-fuss">Die echte Karte aus der Integration, gefüttert mit den neuesten Artikeln von meinungsmache.de (Stand <span data-demo-stand>{{STAND}}</span>), ohne Bilder.</p>
+      </div>
+    </section>
+
+    <ul class="kennzahlen" aria-label="Umfang der Integration">
+      <li><b>28</b><span>Feeds: Ressorts, Parteien, Personen, Länder</span></li>
+      <li><b>3</b><span>Entitäten je Feed</span></li>
+      <li><b>1</b><span>Ereignis je neuem Artikel</span></li>
+      <li><b>2</b><span>fertige Automations-Vorlagen</span></li>
+      <li><b>15 min</b><span>Abrufabstand, einstellbar ab 5 min</span></li>
+    </ul>
+
+    <section class="block">
+      <h2>Wie das funktioniert</h2>
+      <ol class="ablauf">
+        <li style="--n:0"><span class="rund">{{ikon:rss}}</span><span><b>Feeds wählen</b>bei der Einrichtung, jederzeit änderbar</span></li>
+        <li style="--n:1"><span class="rund">{{ikon:haus}}</span><span><b>Home Assistant ruft ab</b>alle 15 Minuten, direkt bei meinungsmache.de</span></li>
+        <li style="--n:2"><span class="rund">{{ikon:blitz}}</span><span><b>Neuer Artikel erkannt</b>exklusiv, eigener Artikel oder Meldung</span></li>
+        <li style="--n:3"><span class="rund">{{ikon:glocke}}</span><span><b>Karte und Automation</b>Dashboard, Handy, Licht, Sprachausgabe …</span></li>
+      </ol>
+      <p class="ablauf-text">meinungsmache.de bietet für alle Artikel und für 27 Themen eigene RSS-Feeds an. Die Integration liest die gewählten Feeds, merkt sich, welche Artikel schon da waren, und meldet jeden neuen genau einmal. Je Feed entsteht ein Gerät mit dem neuesten Artikel, dem Zeitpunkt und einem Ereignis, auf das Automationen reagieren können.</p>
+    </section>
+
+    <section class="block" id="installieren">
+      <h2>Installieren und einrichten</h2>
+      <div class="raster drei">
+        <article class="kachel">
+          <h3 class="mit-logo">{{ikon:paket:ikon logo}}Über den Marketplace</h3>
+          <p class="unter">Home Assistant ab 2026.3, mit Updates</p>
+          <ol class="schritte">
+            <li>Einstellungen → <strong>Marketplace</strong> → Menü ⋮ → <strong>Benutzerdefinierte Repositories</strong>.</li>
+            <li>Adresse <code>{{GITHUB}}</code> eintragen, Typ <strong>Integration</strong>.</li>
+            <li>„Meinungsmache“ installieren und Home Assistant neu starten.</li>
+          </ol>
+        </article>
+        <article class="kachel">
+          <h3 class="mit-logo">{{ikon:konsole:ikon logo}}Im Terminal</h3>
+          <p class="unter">Add-on „Terminal &amp; SSH“ oder eine andere Konsole</p>
+          <pre class="code">{{BEFEHL_ZEILEN}}</pre>
+          <p class="note">Kopiert den Ordner <code>custom_components/meinungsmache</code> aus dem Repository und startet neu. Für ein Update denselben Befehl noch einmal.</p>
+        </article>
+        <article class="kachel">
+          <h3 class="mit-logo">{{ikon:regler:ikon logo}}Einrichten</h3>
+          <p class="unter">Einstellungen → Geräte &amp; Dienste</p>
+          <ol class="schritte">
+            <li><strong>Integration hinzufügen</strong> → „Meinungsmache“.</li>
+            <li>Feeds anhaken, etwa „Alle Artikel“, „Wirtschaft“ und „Donald Trump“.</li>
+            <li>Abrufabstand und Anzahl der Einträge für die Karte festlegen. Später über <strong>Konfigurieren</strong> ändern.</li>
+          </ol>
+          <p class="note">Beim ersten Abruf merkt sich die Integration nur, was schon da ist. Gemeldet wird erst, was danach erscheint.</p>
+        </article>
+      </div>
+
+      <h3 class="zwischen">Was je Feed entsteht</h3>
+      <div class="tabelle-rahmen">
+        <table class="tabelle">
+          <thead><tr><th scope="col">Entität</th><th scope="col">Inhalt</th></tr></thead>
+          <tbody>
+            <tr><td><code>sensor.meinungsmache_&lt;feed&gt;_neuester_artikel</code></td><td>Titel des neuesten Artikels und sein Bild; dazu Link, Zeitpunkt, Anrisstext, Autorin oder Autor, ob exklusiv oder eigener Artikel, und die Liste der letzten Artikel für die Karte</td></tr>
+            <tr><td><code>sensor.meinungsmache_&lt;feed&gt;_zuletzt_erschienen</code></td><td>Zeitpunkt des neuesten Artikels</td></tr>
+            <tr><td><code>event.meinungsmache_&lt;feed&gt;_neuer_artikel</code></td><td>löst je neuem Artikel aus, mit der Art <code>exklusiv</code>, <code>eigener_artikel</code> oder <code>artikel</code> und allen Angaben zum Artikel</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="klein breit"><code>&lt;feed&gt;</code> ist die Kennung des Feeds mit Unterstrich, also <code>all</code>, <code>wirtschaft</code>, <code>donald_trump</code>. Die Namen sind fest und hängen nicht von der Sprache der Oberfläche ab.</p>
+    </section>
+
+    <section class="block" id="dashboard">
+      <h2>Die Karte fürs Dashboard</h2>
+      <div class="raster zwei-ungleich">
+        <div>
+          <p class="breit">Die Karte kommt mit der Integration und muss nicht eigens eingebunden werden. Im Dashboard „Karte hinzufügen“ → „Meinungsmache“ wählen; Feeds, Anzahl, Bilder und Anrisstext lassen sich im Editor einstellen. Mehrere Feeds erscheinen als Reiter. Ein Tipp öffnet den Artikel auf meinungsmache.de, neue Artikel leuchten kurz auf.</p>
+          <ul class="merkmale">
+            <li>{{ikon:haken}}<span>Farben aus dem aktiven Theme, hell und dunkel</span></li>
+            <li>{{ikon:haken}}<span>Exklusive und eigene Artikel gekennzeichnet</span></li>
+            <li>{{ikon:haken}}<span>Zeit relativ („vor 5 Stunden“), auf Deutsch und Englisch</span></li>
+            <li>{{ikon:haken}}<span>Bilder kommen über Home Assistant, nicht direkt aus dem Netz</span></li>
+          </ul>
+        </div>
+        <article class="kachel code-kachel">
+          <p class="prog">{{ikon:code}}Karte in YAML</p>
+          <pre class="code">type: custom:meinungsmache-card
+entities:
+  - sensor.meinungsmache_all_neuester_artikel
+  - sensor.meinungsmache_wirtschaft_neuester_artikel
+  - sensor.meinungsmache_donald_trump_neuester_artikel
+anzahl: 5          # Artikel je Feed
+bilder: true       # Vorschaubilder
+teaser: false      # Anrisstext
+nur_eigene: false  # nur Artikel der Redaktion</pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="automationen">
+      <h2>Automationen</h2>
+      <p class="breit">Jeder neue Artikel löst ein Ereignis aus. Die beiden Vorlagen machen daraus mit wenigen Klicks eine Automation; sie liegen nach der Einrichtung schon unter Einstellungen → Automationen → Blueprints. Taucht ein Artikel in mehreren gewählten Feeds auf, löst die Automation trotzdem nur einmal aus.</p>
+      <div class="raster vier faelle-ha">
+{{FAELLE}}
+      </div>
+
+      <h3 class="zwischen mit-logo" id="vorlagen">{{ikon:glocke:ikon logo}}Die zwei Vorlagen</h3>
+      <div class="raster zwei">
+        <article class="kachel">
+          <h3>Neuer Artikel – Benachrichtigung</h3>
+          <p class="unter">an ein Smartphone oder Tablet mit der Home-Assistant-App</p>
+          <p>Schickt Titel, Art und Anrisstext, auf Wunsch mit Bild. Ein Tipp öffnet den Artikel. Unter Android lässt sich über den Kanal „Meinungsmache“ einstellen, wie laut und wie wichtig die Mitteilungen sind.</p>
+          <a class="knopf leise" href="{{IMPORT_BENACHRICHTIGUNG}}">{{ikon:pfeil}}In Home Assistant öffnen</a>
+        </article>
+        <article class="kachel">
+          <h3>Neuer Artikel – Aktionen</h3>
+          <p class="unter">für alles andere: Licht, Sprachausgabe, Telegram, Dashboard-Hinweis</p>
+          <p>Führt beliebige Aktionen aus. Darin stehen <code>&#123;&#123; titel &#125;&#125;</code>, <code>&#123;&#123; link &#125;&#125;</code>, <code>&#123;&#123; teaser &#125;&#125;</code>, <code>&#123;&#123; bild &#125;&#125;</code>, <code>&#123;&#123; autor &#125;&#125;</code> und <code>&#123;&#123; feed_name &#125;&#125;</code> bereit.</p>
+          <a class="knopf leise" href="{{IMPORT_AKTIONEN}}">{{ikon:pfeil}}In Home Assistant öffnen</a>
+        </article>
+      </div>
+
+      <h3 class="zwischen mit-logo">{{ikon:code:ikon logo}}Ohne Vorlage</h3>
+      <div class="raster zwei">
+        <article class="kachel code-kachel">
+          <p class="prog">Mit der Event-Entität: exklusiver Artikel</p>
+          <pre class="code">triggers:
+  - trigger: state
+    entity_id: event.meinungsmache_all_neuer_artikel
+    not_from: [unavailable, unknown]
+conditions:
+  - condition: state
+    entity_id: event.meinungsmache_all_neuer_artikel
+    attribute: event_type
+    state: exklusiv
+actions:
+  - action: persistent_notification.create
+    data:
+      title: "&#123;&#123; trigger.to_state.attributes.titel &#125;&#125;"
+      message: "&#123;&#123; trigger.to_state.attributes.link &#125;&#125;"</pre>
+        </article>
+        <article class="kachel code-kachel">
+          <p class="prog">Mit dem Ereignis auf dem Bus: Wirtschaft</p>
+          <pre class="code">triggers:
+  - trigger: event
+    event_type: meinungsmache_neuer_artikel
+conditions:
+  - "&#123;&#123; 'wirtschaft' in trigger.event.data.feeds &#125;&#125;"
+actions:
+  - action: notify.notify
+    data:
+      title: "&#123;&#123; trigger.event.data.titel &#125;&#125;"
+      message: "&#123;&#123; trigger.event.data.teaser &#125;&#125;"</pre>
+        </article>
+      </div>
+      <p class="klein breit">Angaben im Ereignis: <code>titel</code>, <code>link</code>, <code>veroeffentlicht</code>, <code>teaser</code>, <code>bild</code>, <code>bild_original</code>, <code>autor</code>, <code>exklusiv</code>, <code>eigen</code>, <code>feed</code>, <code>feed_name</code>, <code>feeds</code> (Feeds, in denen der Artikel jetzt neu ist) und <code>frueher</code> (Feeds, in denen er schon gemeldet war, falls er erst später in einem weiteren auftaucht).</p>
+    </section>
+
+    <section class="block" id="feeds">
+      <h2>Die Feeds zur Auswahl</h2>
+      <ul class="feeds">
+{{FEEDS}}
+      </ul>
+      <p class="klein breit">„Alle Artikel“ enthält jeden neuen Artikel, die Themen-Feeds nur die passenden. Exklusive Artikel erkennt die Integration am Titel („EXKLUSIV: …“), eigene Artikel der Redaktion daran, dass der Feed eine Autorin oder einen Autor nennt.</p>
+    </section>
+
+    <section class="block" id="aufbau">
+      <h2>Wie es gemacht ist</h2>
+      <div class="raster zwei aufbau-text">
+        <div>
+          <p>Eine eigene Integration in Python, eingerichtet über die Oberfläche. Ein gemeinsamer Abruf holt alle gewählten Feeds parallel; fällt einer aus, bleiben die übrigen aktuell. Welche Artikel schon da waren, speichert die Integration je Feed, damit nach einem Neustart nichts doppelt gemeldet wird. Nach einem Neustart zählen nur Artikel der letzten Stunde als neu, damit nicht alles Verpasste auf einmal auslöst.</p>
+          <p>Die Bilder der Artikel holt Home Assistant selbst und reicht sie an Karte und App weiter. Ausgeliefert wird nur, was gerade in einem eingerichteten Feed steht. So zeigt die Karte die Bilder zuverlässig, der Browser lädt nichts direkt von meinungsmache.de, und die App erreicht die Bilder auch von unterwegs.</p>
+          <p>Die Karte ist ein eigenes Web-Element ohne fremde Bibliotheken und wird von der Integration mitgeladen. Markenbilder liegen im Ordner <code>brand/</code>, die Home Assistant seit 2026.3 selbst anzeigt. 15 automatische Tests prüfen Abruf, Erkennung neuer Artikel, Einrichtung und Bilder.</p>
+        </div>
+        <div class="hinweisbox">
+          <h2>Quelle und Rechte</h2>
+          <p>Inhalte: <a href="https://meinungsmache.de">meinungsmache.de</a> – Nachrichten, Meinungen und Analysen. Die Rechte an Texten und Bildern liegen bei meinungsmache.de bzw. den Originalmedien. Die Integration zeigt Titel und einen kurzen Anrisstext und verlinkt auf den Artikel.</p>
+          <p><strong>Bearbeitung:</strong> Dennis Deutschkämer. Inoffizielle Integration, ohne Gewähr – maßgeblich sind die Artikel auf meinungsmache.de.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="quelltext">
+      <div class="quelltext">
+        <div class="qt-kopf">
+          <h2 class="mit-logo">{{ikon:code:ikon qt-zeichen}}Offener Quelltext</h2>
+          <p>Integration, Karte, Vorlagen und diese Seite liegen offen auf GitHub – unter MIT-Lizenz, mit Beschreibung auf Deutsch und Englisch. Fehler und Wünsche gern als Issue.</p>
+          <div class="qt-knoepfe">
+            <a class="knopf" href="{{GITHUB}}">{{ikon:code}}Auf GitHub ansehen</a>
+            <a class="knopf leise" href="{{GITHUB}}/issues">Fehler melden</a>
+          </div>
+          <p class="qt-pfad">github.com/rony-x2/meinungsmache-home-assistant</p>
+        </div>
+        <ul class="qt-teile">
+          <li><b>Abruf und Erkennung</b><span>Feeds parallel lesen, neue Artikel je Feed erkennen und einmal melden</span><code>coordinator.py · feed.py</code></li>
+          <li><b>Entitäten</b><span>Sensoren und Event-Entität je Feed, Einrichtung über die Oberfläche</span><code>sensor.py · event.py · config_flow.py</code></li>
+          <li><b>Karte</b><span>Web-Element mit Editor, ohne fremde Bibliotheken</span><code>frontend/meinungsmache-card.js</code></li>
+          <li><b>Vorlagen</b><span>Benachrichtigung und Aktionen, Filter nach Feed, Art und Stichwort</span><code>blueprints/</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block" id="datenschutz">
+      <h2>Datenschutz</h2>
+      <div class="raster drei ds">
+        <div>
+          <h3>Die Integration</h3>
+          <p>Sie läuft vollständig im eigenen Home Assistant und ruft die öffentlichen RSS-Feeds und Artikelbilder direkt bei meinungsmache.de ab. Dabei sieht meinungsmache.de, wie bei jedem Seitenaufruf, die IP-Adresse des Anschlusses. An Dennis Deutschkämer oder andere Dritte gehen keine Daten; es gibt kein Konto und keine Auswertung.</p>
+        </div>
+        <div>
+          <h3>Diese Seite</h3>
+          <p>Die Vorführung lädt die neuesten Artikel aus der Schnittstelle von <a href="/meinungsmache/">Rede mit Meinungsmache</a> auf demselben Server. Dabei wird nichts protokolliert und kein Cookie gesetzt. Die Seite liegt bei der Hetzner Online GmbH, die nur die für den Betrieb nötigen Server-Protokolle führt. Verantwortlich ist Dennis Deutschkämer, Anschrift im <a href="https://plenarprotokolle.digital/impressum.php">Impressum von plenarprotokolle.digital</a>.</p>
+        </div>
+        <div>
+          <h3>GitHub</h3>
+          <p>Der Quelltext liegt bei GitHub (Microsoft). Wer dort installiert, ein Issue anlegt oder den Marketplace nutzt, für den gelten die Bedingungen und Datenschutzhinweise von GitHub. Fragen zum Datenschutz bitte an <a href="mailto:dennis@deutschkaemer.info">dennis@deutschkaemer.info</a>.</p>
+          <p class="note">Stand: 21. November 2026.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="fuss">
+    <div class="rahmen">
+      <p><a href="https://deutschkaemer.info">deutschkaemer.info</a> · <a href="https://meinungsmache.de">meinungsmache.de</a> · <a href="{{GITHUB}}">Quelltext auf GitHub</a></p>
+    </div>
+  </footer>
+  <script type="application/json" id="demo-daten">{{DEMO_DATEN}}</script>
+  <script src="meinungsmache-card.js?v={{V_KARTE}}" defer></script>
+  <script src="seite.js?v={{V_JS}}" defer></script>
+</body>
+</html>
